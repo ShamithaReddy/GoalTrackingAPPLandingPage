@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goal Tracker - Achieve More, Every Day</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+<div class="container">
+        <header>
+            <h1>Goal Tracker Name</h1>
+            <p>AI-Powered Goal Tracker</p>
+        </header>
+
+        <section class="hero">
+            <h2>Transform your aspirations into accomplishments with our cutting-edge goal tracking app.</h2>
+            <p>Set, Track, and Achieve Your Goals with Smart AI Assistance</p>
+        </section>
+
+        <div class="phone-container">
+            <div class="phone">
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <div class="app-screen active" id="dashboard">
+                            <h2>Dashboard</h2>
+                            <div class="dashboard-container">
+                                <!-- Quick Overview Section -->
+                                <div class="quick-overview">
+                                    <div class="goal-summary-cards">
+                                        <div class="goal-card">
+                                            <h3>Learn Spanish</h3>
+                                            <div class="progress-bar">
+                                                <div class="progress" style="width: 70%;"></div>
+                                            </div>
+                                            <p>70% complete</p>
+                                        </div>
+                                        <div class="goal-card">
+                                            <h3>Read 12 Books</h3>
+                                            <div class="progress-bar">
+                                                <div class="progress" style="width: 50%;"></div>
+                                            </div>
+                                            <p>50% complete</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Today's Tasks Section -->
+                                <div class="today-tasks">
+                                    <h3>Today's Tasks</h3>
+                                    <ul>
+                                        <li>Spanish lesson - 30 minutes</li>
+                                        <li>Read 30 pages of current book</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Upcoming Deadlines Section -->
+                                <div class="upcoming-deadlines">
+                                    <h3>Upcoming Deadlines</h3>
+                                    <ul>
+                                        <li>Complete Spanish course - 30 days left</li>
+                                        <li>Finish current book - 7 days left</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Motivational Quote Section -->
+                                <div class="motivational-quote">
+                                    <p>"The only way to do great work is to love what you do." - Steve Jobs</p>
+                                </div>
+
+                                <!-- Quick Add Button -->
+                                <button class="quick-add-btn">+ Quick Add</button>
+
+                                <!-- Daily Snapshot Section -->
+                                <div class="daily-snapshot">
+                                    <h3>Daily Goal & Task Snapshot</h3>
+                                    <button class="share-btn">Share</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="app-screen" id="goals">
+                            <h2>Goals</h2>
+                            <div class="goals-filter">
+                                <select class="filter-dropdown">
+                                    <option>All Categories</option>
+                                    <option>Personal</option>
+                                    <option>Work</option>
+                                    <option>Health</option>
+                                </select>
+                                <select class="filter-dropdown">
+                                    <option>All Statuses</option>
+                                    <option>In Progress</option>
+                                    <option>Completed</option>
+                                </select>
+                                <select class="filter-dropdown">
+                                    <option>All Time Frames</option>
+                                    <option>This Week</option>
+                                    <option>This Month</option>
+                                    <option>This Year</option>
+                                </select>
+                            </div>
+                            <div class="goals-list">
+                                <div class="goal-item">
+                                    <div class="goal-icon"><i class="fas fa-language"></i></div>
+                                    <div class="goal-details">
+                                        <h3>Learn Spanish</h3>
+                                        <div class="progress-bar">
+                                            <div class="progress" style="width: 70%;"></div>
+                                        </div>
+                                        <p>30 days left</p>
+                                        <p>Reward: Weekend getaway</p>
+                                    </div>
+                                </div>
+                                <div class="goal-item">
+                                    <div class="goal-icon"><i class="fas fa-book"></i></div>
+                                    <div class="goal-details">
+                                        <h3>Read 12 Books</h3>
+                                        <div class="progress-bar">
+                                            <div class="progress" style="width: 50%;"></div>
+                                        </div>
+                                        <p>6 months left</p>
+                                        <p>Reward: New e-reader</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="app-screen" id="add-new">
+                            <h2>Add New Goal</h2>
+                            <div class="add-options">
+                                <button class="add-goal-btn">New Goal</button>
+                                <button class="add-task-btn">Daily Task</button>
+                                <button class="add-reward-btn">Reward</button>
+                            </div>
+                            <form class="add-goal-form">
+                                <input type="text" placeholder="Goal Title" required>
+                                <textarea placeholder="Description"></textarea>
+                                <select required>
+                                    <option value="">Select Category</option>
+                                    <option value="health">Health</option>
+                                    <option value="education">Education</option>
+                                    <option value="career">Career</option>
+                                    <option value="personal">Personal</option>
+                                </select>
+                                <input type="date" placeholder="Deadline" required>
+                                <input type="text" placeholder="Measurable Objective">
+                                <button type="submit">Create Goal</button>
+                            </form>
+                        </div>
+                        <div class="app-screen" id="calendar">
+                            <h2>Calendar</h2>
+                            <div class="calendar-header">
+                                <button class="prev-month">&lt;</button>
+                                <h3>October 2024</h3>
+                                <button class="next-month">&gt;</button>
+                            </div>
+                            <div class="calendar-grid">
+                                <!-- Calendar days would be dynamically generated here -->
+                                <div class="calendar-day">1</div>
+                                <div class="calendar-day">2</div>
+                                <div class="calendar-day">3</div>
+                                <div class="calendar-day">4</div>
+                                <div class="calendar-day">5</div>
+                                <div class="calendar-day">6</div>
+                                <div class="calendar-day">7</div>
+                                <div class="calendar-day">8</div>
+                                <div class="calendar-day">9</div>
+                                <div class="calendar-day">10</div>
+                                <div class="calendar-day">11</div>
+                                <div class="calendar-day">12</div>
+                                <div class="calendar-day">13</div>
+                                <div class="calendar-day">14</div>
+                                <div class="calendar-day active">15</div>
+                                <div class="calendar-day">16</div>
+                                <div class="calendar-day">17</div>
+                                <div class="calendar-day">18</div>
+                                <div class="calendar-day">19</div>
+                                <div class="calendar-day">20</div>
+                                <div class="calendar-day">21</div>
+                                <div class="calendar-day">22</div>
+                                <div class="calendar-day">23</div>
+                                <div class="calendar-day">24</div>
+                                <div class="calendar-day">25</div>
+                                <div class="calendar-day">26</div>
+                                <div class="calendar-day">27</div>
+                                <div class="calendar-day">28</div>
+                                <div class="calendar-day">29</div>
+                                <div class="calendar-day">30</div>
+                                <div class="calendar-day">31</div>
+                            </div>
+                            <div class="day-tasks">
+                                <h4>Tasks for Oct 15</h4>
+                                <ul>
+                                    <li>Spanish lesson</li>
+                                    <li>Read 30 pages</li>
+                                </ul>
+                            </div>
+
+                            <button class="quick-add-btn">+ Quick Add</button>
+                        </div>
+                        <div class="app-screen" id="profile">
+                            <h2>Profile</h2>
+                            <div class="user-info">
+                                <img src="user-avtar.jpeg" alt="User Avatar" class="user-avatar">
+                                <h3>John Doe</h3>
+                                <p>Goal Achiever since 2024</p>
+                            </div>
+                            <div class="user-stats">
+                                <div class="stat-item">
+                                    <span class="stat-value">15</span>
+                                    <span class="stat-label">Goals Completed</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-value">5</span>
+                                    <span class="stat-label">Active Goals</span>
+                                </div>
+                            </div>
+                            <div class="rewards-showcase">
+                                <h3>Rewards Earned</h3>
+
+                                <div class="reward-list">
+                                    <div class="reward-item">
+                                        <i class="fas fa-trophy"></i> Weekend Getaway
+                                    </div>
+                                    <div class="reward-item">
+                                        <i class="fas fa-shoe-prints"></i> New Running Shoes
+                                    </div>
+                                    <div class="reward-item">
+                                        <i class="fas fa-spa"></i> Spa Day
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="profile-actions">
+                                <button class="edit-profile-btn">Edit Profile</button>
+                                <button class="settings-btn">Settings</button>
+                                <button class="share-profile-btn">Share Profile</button>
+                            </div>
+                        </div>
+                        <div class="nav-bar">
+                            <a href="#" class="nav-item" data-screen="dashboard">
+                                <i class="fas fa-chart-bar"></i>
+                                <div>Dashboard</div>
+                            </a>
+                            <a href="#" class="nav-item" data-screen="goals">
+                                <i class="fas fa-bullseye"></i>
+                                <div>Goals</div>
+                            </a>
+                            <a href="#" class="nav-item" data-screen="add-new">
+                                <i class="fas fa-plus-circle"></i>
+                                <div>Add New</div>
+                            </a>
+                            <a href="#" class="nav-item" data-screen="calendar">
+                                <i class="fas fa-calendar-alt"></i>
+                                <div>Calendar</div>
+                            </a>
+                            <a href="#" class="nav-item" data-screen="profile">
+                                <i class="fas fa-user"></i>
+                                <div>Profile</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="features-container">
+            <div class="features">
+                <div class="feature">
+                    <h3>Smart Goal Suggestions</h3>
+                    <p>AI analyzes user's current goals and progress and suggests new goals based on user's preferences</p>
+                </div>
+                <div class="feature">
+                    <h3>AI-Powered Insights</h3>
+                    <p>Get personalized recommendations and motivational content to boost your productivity.</p>
+                </div>
+                <div class="feature">
+                    <h3>Goal Sharing</h3>
+                    <p>Share your progress with friends and get support from your community.</p>
+                </div>
+                <div class="feature">
+                    <h3>Rewards System</h3>
+                    <p>Create custom rewards and celebrate your achievements.</p>
+                </div>
+                <div class="feature">
+                    <h3>Calendar Integration</h3>
+                    <p>Seamlessly sync your goals to Google Calendar</p>
+                </div>
+                <div class="feature">
+                    <h3>Progress Tracking</h3>
+                    <p>Visualize your progress with intuitive charts.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta">
+            <h2>Ready to achieve your goals?</h2>
+            <p>Join our waiting list and be the first to know when we launch!</p>
+            <!-- Form Container -->
+            <div id="form-container">
+                <form id="signup-form" action="https://docs.google.com/forms/d/e/1FAIpQLSeX1F9KpybG-8e2ut7MSI_gxwxitd4Ub6Gtb-VJc10XcTXwoQ/formResponse" method="post">
+                    <div class="email-signup">
+                        <input type="email" name="entry.956403359" placeholder="Enter your email" required>
+                        <button type="submit">Join Waiting List</button>
+                    </div>
+                </form>
+            </div>
+            <div id="thank-you-message" style="display: none;">
+                <h3>Thank you for joining our waiting list! 🎉</h3>
+                <p>We'll keep you updated on our launch and exciting updates.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <footer>
+        <p>&copy; 2024 Goal Tracker App. All rights reserved.</p>
+    </footer>
+
+<script>
+    const phone = document.querySelector('.phone');
+    const screens = document.querySelectorAll('.app-screen');
+    const navItems = document.querySelectorAll('.nav-item');
+
+    navItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            const screenId = item.getAttribute('data-screen');
+            screens.forEach(screen => screen.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+        });
+    });
+
+    // Add hover effect to the phone
+    phone.addEventListener('mousemove', (e) => {
+        const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+        const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+        phone.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+    });
+
+    phone.addEventListener('mouseleave', () => {
+        phone.style.transform = 'rotateY(0) rotateX(0)';
+    });
+
+    document.getElementById('signup-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const form = this;
+        const formContainer = document.getElementById('form-container');
+        const thankYouMessage = document.getElementById('thank-you-message');
+        const emailInput = form.querySelector('input[type="email"]');
+
+        // Disable the submit button to prevent double submission
+        form.querySelector('button').disabled = true;
+
+        // Create and send the form data
+        fetch(form.action, {
+            method: form.method,
+            body: new FormData(form),
+            mode: 'no-cors'
+        })
+            .then(() => {
+                // Hide the form and show the thank you message
+                formContainer.style.display = 'none';
+                thankYouMessage.style.display = 'block';
+
+                // Optional: Reset the form in case you want to show it again later
+                form.reset();
+            })
+            .catch(() => {
+                // Re-enable the submit button if there's an error
+                form.querySelector('button').disabled = false;
+                alert('Oops! Something went wrong. Please try again later.');
+            });
+    });
+</script>
+</body>
+</html>
