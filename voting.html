@@ -54,7 +54,6 @@
             { name: 'Should we integrate with health/fitnesss tracking apps?', votes: 0},
             { name: 'Should we add group challenges and competitions?', votes: 0}
         ];
-        console.log('Features array initialized:', features);
 
         // Function to render features
         function renderFeatures() {
@@ -129,7 +128,6 @@
                     return response.json();
                 })
                 .then(data => {
-                    console.log('API Response:', data);
 
                     if (!data.values || data.values.length === 0) {
                         throw new Error('No data found in the specified range.');
@@ -162,7 +160,6 @@
                         }
 
                         // Count votes for "Should we integrate with health/fitnesss tracking apps?"
-                        console.log('Health/Fitness Vote:', healthorFitnessVote);
                         if (healthorFitnessVote === "Upvote") {
                             votes["Should we integrate with health/fitnesss tracking apps?"].Upvote++;
                         } else if (healthorFitnessVote === "Downvote") {
@@ -170,7 +167,6 @@
                         }
 
                         // Count votes for "Should we add group challenges and competitions?"
-                        console.log('Group Challenges Vote:', groupChallengesVote);
                         if (groupChallengesVote === "Upvote") {
                             votes["Should we add group challenges and competitions?"].Upvote++;
                         } else if (groupChallengesVote === "Downvote") {
@@ -179,17 +175,11 @@
 
                     });
 
-                    console.log('Before updating features:', JSON.parse(JSON.stringify(features)));
-
                     features.forEach(feature => {
                         const featureVotes = votes[feature.name] || { Upvote: 0, Downvote: 0 };
                         feature.votes = featureVotes.Upvote - featureVotes.Downvote;
-                        console.log(`Updated ${feature.name}: ${feature.votes}`);
                     });
 
-                    console.log('After updating features:', JSON.parse(JSON.stringify(features)));
-
-                    console.log('Votes updated:', votes);
                     renderFeatures();
                 })
                 .catch(error => {
@@ -330,7 +320,6 @@
             renderFeatures();
             fetchVoteCounts(); // If you want to fetch initial vote counts
         });
-        console.log('Script reached end of file');
     </script>
     </body>
 </html>
