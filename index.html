@@ -10,9 +10,13 @@
 <body>
 <div class="container">
         <header>
-            <h1>Goal Tracker Name</h1>
+            <h1>AchievoAI</h1>
             <p>AI-Powered Goal Tracker</p>
         </header>
+    <div class="top-nav">
+        <a href="voting.html" class="nav-button feature-vote-link">Vote on Features</a>
+        <button onclick="scrollToCTA()" class="nav-button join-mailing-link">Join Mailing List</button>
+    </div>
 
         <section class="hero">
             <h2>Transform your aspirations into accomplishments with our cutting-edge goal tracking app.</h2>
@@ -310,7 +314,6 @@
                 <p>We'll keep you updated on our launch and exciting updates.</p>
             </div>
         </div>
-    </div>
 </div>
 
     <footer>
@@ -318,6 +321,11 @@
     </footer>
 
 <script>
+    console.log('Script initialized');
+    function scrollToCTA() {
+        const ctaSection = document.querySelector('.cta');
+        ctaSection.scrollIntoView({ behavior: 'smooth' });
+    }
     const phone = document.querySelector('.phone');
     const screens = document.querySelectorAll('.app-screen');
     const navItems = document.querySelectorAll('.nav-item');
@@ -373,6 +381,7 @@
                 alert('Oops! Something went wrong. Please try again later.');
             });
     });
+
 </script>
 </body>
 </html>

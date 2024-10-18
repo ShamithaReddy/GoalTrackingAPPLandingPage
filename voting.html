@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feature Voting - AchievoAI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+    <div class="container">
+        <header>
+            <h1>AchievoAI Feature Voting</h1>
+            <p>Help shape the future of our app by voting on features</p>
+        </header>
+
+        <section class="voting-section">
+            <h2>Vote on Upcoming Features</h2>
+            <div id="voting-container">
+                <!-- Features will be dynamically inserted here -->
+            </div>
+        </section>
+
+        <section class="suggestion-section">
+            <h2>Suggest a Feature ⭐</h2>
+            <p>Have an idea for a feature? Let us know!</p>
+            <form id="suggestionForm">
+                <div class="suggestionText-container">
+                    <input type="text" id="suggestionText" name="entry.292006196" placeholder="Enter your suggestion here..." required>
+                    <button type="submit" class="suggestion-submit">Submit</button>
+                </div>
+            </form>
+            <div id="voting-thank-you" class="thank-you-message">
+                <h3>Thank you for your feedback!</h3>
+                <p>Your input helps us improve our app.</p>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Feature data
+        // Replace with your actual Google Form ID and entry IDs
+        const FORM_ID = '1FAIpQLSfATRdwWDVKI3dXIW9BI10E0-qiNm6QSdq6pXmlFDGujDo--A';
+        const ENTRY_IDS = {
+            'Get a Domain?': '109499305',
+            'Would you like to join goal-specific community groups?': '1574093010',
+            'Should we integrate with health/fitnesss tracking apps?': '891437764',
+            'Should we add group challenges and competitions?': '617867425'
+        };
+
+        // Replace with your Google Sheets API key and Spreadsheet ID
+        const API_KEY = 'AIzaSyCvgrRMV8_awqEdL9ZlecAlrL2yDL5lBAs';
+        const SPREADSHEET_ID = '1nEFqXBV4zXKXaSPaLKsc0PuQ68zTJz67lhj0FyORKfw';
+
+        const features = [
+            { name: 'Get a Domain?', votes: 0 },
+            { name: 'Would you like to join goal-specific community groups?', votes: 0 },
+            { name: 'Should we integrate with health/fitnesss tracking apps?', votes: 0},
+            { name: 'Should we add group challenges and competitions?', votes: 0}
+        ];
+        console.log('Features array initialized:', features);
+
+        // Function to render features
+        function renderFeatures() {
+            const container = document.getElementById('voting-container');
+            container.innerHTML = '';
+            features.forEach(feature => {
+                const featureElement = document.createElement('div');
+                featureElement.className = 'feature-item';
+                featureElement.innerHTML = `
+            <div class="feature-card">
+                <h3 class="feature-title">${feature.name}</h3>
+                <div class="vote-section">
+                    <button class="vote-button upvote" onclick="vote('${feature.name}', 'Upvote')">
+                        <i class="fas fa-thumbs-up"></i>
+                    </button>
+                    <span class="vote-count">${feature.votes}</span>
+                    <button class="vote-button downvote" onclick="vote('${feature.name}', 'Downvote')">
+                        <i class="fas fa-thumbs-down"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+                container.appendChild(featureElement);
+            });
+        }
+
+
+        function vote(featureName, voteType) {
+            try {
+                // Using Google Forms URL directly with no-cors mode
+                const formId = '1FAIpQLSfATRdwWDVKI3dXIW9BI10E0-qiNm6QSdq6pXmlFDGujDo--A';
+                const entryId = ENTRY_IDS[featureName];
+                const url = `https://docs.google.com/forms/d/e/${formId}/formResponse?usp=pp_url&entry.${entryId}=${voteType}&submit=Submit`;
+
+                // Submit vote using fetch
+                fetch(url, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    credentials: 'omit',
+                })
+                    .then(() => {
+                        // Show thank you message (optional)
+                        showThankYouMessage(voteType);
+
+                        // After submitting, re-fetch the updated vote counts
+                        return fetchVoteCounts();
+                    })
+                    .catch(error => {
+                        console.error('Error submitting vote:', error);
+                        showErrorMessage();  // Handle error case with a message
+                    });
+
+            } catch (error) {
+                console.error('Error in vote function:', error);
+                showErrorMessage();
+            }
+        }
+
+
+        function fetchVoteCounts() {
+            const range = 'A2:F';
+            const spreadsheetId = '1A6tcZyjNmLpzK32pwKyIMcAWSOOP24kVWHrqkThvoBo';
+            const apiKey = 'AIzaSyCvgrRMV8_awqEdL9ZlecAlrL2yDL5lBAs';
+
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`;
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('API Response:', data);
+
+                    if (!data.values || data.values.length === 0) {
+                        throw new Error('No data found in the specified range.');
+                    }
+
+                    // Initialize an object to hold the votes for each feature
+                    const votes = {
+                        "Get a Domain?": { Upvote: 0, Downvote: 0 },
+                        "Would you like to join goal-specific community groups?": { Upvote: 0, Downvote: 0 },
+                        "Should we integrate with health/fitnesss tracking apps?": { Upvote: 0, Downvote: 0 },
+                        "Should we add group challenges and competitions?": { Upvote: 0, Downvote: 0 }
+                    };
+
+                    // Iterate through each row and count votes per feature
+                    data.values.forEach(row => {
+                        const [timestamp, getDomainVote, communityGroupsVote, healthorFitnessVote, groupChallengesVote] = row;
+
+                        // Count votes for "Get a Domain?"
+                        if (getDomainVote === "Upvote") {
+                            votes["Get a Domain?"].Upvote++;
+                        } else if (getDomainVote === "Downvote") {
+                            votes["Get a Domain?"].Downvote++;
+                        }
+
+                        // Count votes for "Would you like to join goal-specific community groups?"
+                        if (communityGroupsVote === "Upvote") {
+                            votes["Would you like to join goal-specific community groups?"].Upvote++;
+                        } else if (communityGroupsVote === "Downvote") {
+                            votes["Would you like to join goal-specific community groups?"].Downvote++;
+                        }
+
+                        // Count votes for "Should we integrate with health/fitnesss tracking apps?"
+                        console.log('Health/Fitness Vote:', healthorFitnessVote);
+                        if (healthorFitnessVote === "Upvote") {
+                            votes["Should we integrate with health/fitnesss tracking apps?"].Upvote++;
+                        } else if (healthorFitnessVote === "Downvote") {
+                            votes["Should we integrate with health/fitnesss tracking apps?"].Downvote++;
+                        }
+
+                        // Count votes for "Should we add group challenges and competitions?"
+                        console.log('Group Challenges Vote:', groupChallengesVote);
+                        if (groupChallengesVote === "Upvote") {
+                            votes["Should we add group challenges and competitions?"].Upvote++;
+                        } else if (groupChallengesVote === "Downvote") {
+                            votes["Should we add group challenges and competitions?"].Downvote++;
+                        }
+
+                    });
+
+                    console.log('Before updating features:', JSON.parse(JSON.stringify(features)));
+
+                    features.forEach(feature => {
+                        const featureVotes = votes[feature.name] || { Upvote: 0, Downvote: 0 };
+                        feature.votes = featureVotes.Upvote - featureVotes.Downvote;
+                        console.log(`Updated ${feature.name}: ${feature.votes}`);
+                    });
+
+                    console.log('After updating features:', JSON.parse(JSON.stringify(features)));
+
+                    console.log('Votes updated:', votes);
+                    renderFeatures();
+                })
+                .catch(error => {
+                    console.error('Error fetching vote counts:', error);
+                    showErrorMessage();  // Handle the error display here
+                });
+        }
+
+
+        // Wait for the DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('suggestionForm');
+            const suggestionInput = document.getElementById('suggestionText');
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault(); // Prevent the form from submitting normally
+
+                const suggestion = suggestionInput.value;
+
+                // Send the data to the backend
+                sendSuggestionToBackend(suggestion);
+
+                // Clear the input field
+                suggestionInput.value = '';
+
+                // Show thank you message
+                showThankYouMessage('Suggestion');
+            });
+        });
+
+        function sendSuggestionToBackend(suggestion) {
+            // Replace this URL with your actual backend endpoint
+            const url = 'https://docs.google.com/forms/d/e/1FAIpQLSfATRdwWDVKI3dXIW9BI10E0-qiNm6QSdq6pXmlFDGujDo--A/formResponse';
+
+            // Create form data
+            const formData = new FormData();
+            formData.append('entry.292006196', suggestion);
+
+            // Send POST request to the backend
+            fetch(url, {
+                method: 'POST',
+                body: formData,
+                mode: 'no-cors' // This is necessary for submitting to Google Forms
+            }).then(response => {
+                console.log('Suggestion submitted successfully');
+            }).catch(error => {
+                console.error('Error submitting suggestion:', error);
+            });
+        }
+
+        // Preserve the original showThankYouMessage function with added functionality
+        function showThankYouMessage(voteType) {
+            // Remove any existing message first
+            const existingMessage = document.getElementById('vote-message');
+            if (existingMessage) {
+                existingMessage.remove();
+            }
+
+            // Create message element
+            const messageDiv = document.createElement('div');
+            messageDiv.id = 'vote-message';
+
+            // Style the message
+            messageDiv.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px 25px;
+        border-radius: 8px;
+        color: white;
+        font-weight: 500;
+        z-index: 1000;
+        animation: slideIn 0.5s ease-out;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    `;
+
+            // Set message content and color based on vote type
+            if (voteType === 'Upvote') {
+                messageDiv.style.backgroundColor = '#4CAF50';
+                messageDiv.textContent = '👍 Thanks for your upvote!';
+            } else if (voteType === 'Downvote') {
+                messageDiv.style.backgroundColor = '#555555';
+                messageDiv.textContent = '👎 Thanks for your feedback!';
+            } else if (voteType === 'Suggestion') {
+                messageDiv.style.backgroundColor = '#2196F3';
+                messageDiv.textContent = '✅ Thank you for your suggestion!';
+            }
+
+            // Add animation keyframes
+            const styleSheet = document.createElement('style');
+            styleSheet.textContent = `
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    `;
+            document.head.appendChild(styleSheet);
+
+            // Add to document and set timeout to remove
+            document.body.appendChild(messageDiv);
+
+            setTimeout(() => {
+                messageDiv.style.animation = 'slideOut 0.5s ease-in forwards';
+                setTimeout(() => messageDiv.remove(), 500);
+            }, 3000);
+        }
+
+        // Initialize the voting section
+        document.addEventListener('DOMContentLoaded', () => {
+            // Create or get the vote section
+            let voteSection = document.getElementById('vote-section');
+            if (!voteSection) {
+                voteSection = document.createElement('div');
+                voteSection.id = 'vote-section';
+                document.body.appendChild(voteSection);
+            }
+        });
+
+        // Function to show error message
+        function showErrorMessage() {
+            const errorMessage = document.getElementById('voting-error');
+            if (errorMessage) {
+                errorMessage.style.display = 'block';
+                setTimeout(() => {
+                    errorMessage.style.display = 'none';
+                }, 3000);
+            }
+        }
+        // Initialize the features when the document is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM Content Loaded');
+            renderFeatures();
+            fetchVoteCounts(); // If you want to fetch initial vote counts
+        });
+        console.log('Script reached end of file');
+    </script>
+    </body>
+</html>
